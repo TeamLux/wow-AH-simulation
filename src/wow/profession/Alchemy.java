@@ -1,0 +1,46 @@
+package wow.profession;
+
+import java.util.ArrayList;
+
+import wow.action.Action;
+import wow.player.Player;
+
+public final class Alchemy extends Job {
+
+	
+	private static Alchemy singleton = new Alchemy();
+	private Alchemy() {}
+	
+	public static Alchemy getAlchemy(){
+		return singleton;
+	}
+
+	@Override
+	public ArrayList<Action> getActions() {
+		ArrayList<Action> actions = new ArrayList<Action>();
+		actions.add(CreatPotion.getCreatPotion());
+		return actions;
+	}
+	
+	private final static class CreatPotion extends Action {
+
+		private static final CreatPotion singleton = new CreatPotion();
+		private CreatPotion() {}
+		
+		public static CreatPotion getCreatPotion(){
+			return singleton;
+		}
+		
+		@Override
+		public void run(Player p) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public int id() {
+			return 0;
+		}
+		
+	}
+}

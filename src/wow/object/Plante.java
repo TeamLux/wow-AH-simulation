@@ -1,10 +1,10 @@
 package wow.object;
 
-public final class SagittaireDeNagrand extends WowObject {
+public final class Plante extends WowObject {
 
 	@Override
 	public int id() {
-		return 109128;
+		return 1;
 	}
 
 	@Override
