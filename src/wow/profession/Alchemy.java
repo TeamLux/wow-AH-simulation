@@ -3,6 +3,8 @@ package wow.profession;
 import java.util.ArrayList;
 
 import wow.action.Action;
+import wow.object.Plante;
+import wow.object.Potion;
 import wow.player.Player;
 
 public final class Alchemy extends Job {
@@ -31,15 +33,20 @@ public final class Alchemy extends Job {
 			return singleton;
 		}
 		
+		/**
+		 * Crée une potion
+		 */
 		@Override
 		public void run(Player p) {
-			// TODO Auto-generated method stub
+			assert(this.isrunnable(p));
+			p.getBag().remove(Plante.getPlante(), 3);
+			p.getBag().add(Potion.getPotion(), 1);
 			
 		}
 
 		@Override
-		public int id() {
-			return 0;
+		public boolean isrunnable(Player p) {
+			return !p.isBusy() && p.getBag().has(Plante.getPlante(), 3);
 		}
 		
 	}

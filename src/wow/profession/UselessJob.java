@@ -5,6 +5,13 @@ import java.util.ArrayList;
 import wow.action.Action;
 
 public class UselessJob extends Job {
+	
+	private static final UselessJob singleton = new UselessJob();
+	private UselessJob() {}
+	
+	public static UselessJob getUselessJob(){
+		return singleton;
+	}
 
 	@Override
 	public ArrayList<Action> getActions() {

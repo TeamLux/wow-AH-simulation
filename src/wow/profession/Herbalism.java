@@ -4,6 +4,7 @@ package wow.profession;
 import java.util.ArrayList;
 
 import wow.action.Action;
+import wow.object.Plante;
 import wow.player.Player;
 
 public final class Herbalism extends Job {
@@ -31,15 +32,20 @@ public final class Herbalism extends Job {
 			return singleton;
 		}
 		
+		/**
+		 * Crée 100 plantes pour le joueur p 
+		 */
 		@Override
 		public void run(Player p) {
-			// TODO Auto-generated method stub
+			assert(this.isrunnable(p));
+			p.busyFor(1);
+			p.getBag().add(Plante.getPlante(), 100);
 			
 		}
 
 		@Override
-		public int id() {
-			return 0;
+		public boolean isrunnable(Player p) {
+			return !p.isBusy();
 		}
 		
 	}
