@@ -9,7 +9,7 @@ public class UselessJob extends Job {
 	private static final UselessJob singleton = new UselessJob();
 	private UselessJob() {}
 	
-	public static UselessJob getUselessJob(){
+	public static UselessJob getInstance(){
 		return singleton;
 	}
 

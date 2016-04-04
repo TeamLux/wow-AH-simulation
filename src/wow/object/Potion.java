@@ -5,7 +5,7 @@ public class Potion extends WowObject {
 	private static Potion singleton = new Potion();
 	private Potion() {}
 	
-	public static Potion getPotion(){
+	public static Potion getInstance(){
 		return singleton;
 	}
 	

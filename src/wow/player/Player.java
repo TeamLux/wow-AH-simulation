@@ -11,13 +11,13 @@ import wow.profession.Job;
 import wow.profession.UselessJob;
 
 public class Player {
-	private ArrayList<Job> jobs = new ArrayList<Job>(4);
+	ArrayList<Job> jobs = new ArrayList<Job>(4);
 	private int busy = 0;
 	private Bag bag = new Bag();
+	private int gold;
 	
 	public Player(){
 		this.setJobs();
-		
 	}
 	
 	private void setJobs(){
@@ -28,13 +28,13 @@ public class Player {
         Collections.shuffle(list);
 		for (int i = 0; i < jobs.size(); i++) {
 			if(list.get(i).equals(0)){
-				jobs.set(i, Herbalism.getHerbalism());
+				jobs.set(i, Herbalism.getInstance());
 			}
 			else if(list.get(i).equals(1)){
-				jobs.set(i, Alchemy.getAlchemy());
+				jobs.set(i, Alchemy.getInstance());
 			}
 			else{
-				jobs.set(i, UselessJob.getUselessJob());
+				jobs.set(i, UselessJob.getInstance());
 			}
 		}
 	}
@@ -53,5 +53,9 @@ public class Player {
 	
 	public Bag getBag(){
 		return this.bag;
+	}
+	
+	public int getGold(){
+		return this.gold;
 	}
 }

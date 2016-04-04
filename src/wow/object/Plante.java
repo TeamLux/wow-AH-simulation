@@ -5,7 +5,7 @@ public final class Plante extends WowObject {
 	private static Plante singleton = new Plante();
 	private Plante() {}
 	
-	public static Plante getPlante(){
+	public static Plante getInstance(){
 		return singleton;
 	}
 	

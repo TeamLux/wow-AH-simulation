@@ -4,6 +4,8 @@ package wow.profession;
 import java.util.ArrayList;
 
 import wow.action.Action;
+import wow.ah.AH;
+import wow.envrionment.Environment;
 import wow.object.Plante;
 import wow.player.Player;
 
@@ -12,14 +14,14 @@ public final class Herbalism extends Job {
 	private static Herbalism singleton = new Herbalism();
 	private Herbalism() {}
 	
-	public static Herbalism getHerbalism(){
+	public static Herbalism getInstance(){
 		return singleton;
 	}
 
 	@Override
 	public ArrayList<Action> getActions() {
 		ArrayList<Action> actions = new ArrayList<Action>();
-		actions.add(HerbGathering.getHerbGathering());
+		actions.add(HerbGathering.getInstance());
 		return actions;
 	}
 	
@@ -28,7 +30,7 @@ public final class Herbalism extends Job {
 		private static final HerbGathering singleton = new HerbGathering();
 		private HerbGathering() {}
 		
-		public static HerbGathering getHerbGathering(){
+		public static HerbGathering getInstance(){
 			return singleton;
 		}
 		
@@ -36,15 +38,14 @@ public final class Herbalism extends Job {
 		 * Crée 100 plantes pour le joueur p 
 		 */
 		@Override
-		public void run(Player p) {
-			assert(this.isrunnable(p));
+		public void run(Player p, Environment e) {
+			assert(this.isrunnable(p, e));
 			p.busyFor(1);
-			p.getBag().add(Plante.getPlante(), 100);
-			
+			p.getBag().add(Plante.getInstance(), 100);
 		}
 
 		@Override
-		public boolean isrunnable(Player p) {
+		public boolean isrunnable(Player p, Environment e) {
 			return !p.isBusy();
 		}
 		
