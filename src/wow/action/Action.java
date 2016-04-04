@@ -6,4 +6,5 @@ import wow.player.Player;
 public abstract class Action {
 	public abstract void run(Player p, Environment e);
 	public abstract boolean isrunnable(Player p, Environment e);
+	public abstract int potentielUtility(Player p, Environment e);
 }

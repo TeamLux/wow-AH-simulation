@@ -20,6 +20,14 @@ public class AH {
 		sales.add(sale);
 	}
 	
+	public void removeSale(Sale sale){
+		sales.remove(sale);
+	}
+	
+	public boolean hasSale(Sale sale){
+		return sales.contains(sale);
+	}
+	
 	public void oneHourAhead(){
 		for (Sale sale : sales){
 			if(sale.oneHourAhead()){

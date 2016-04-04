@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.ThreadLocalRandom;
 
+import utility.Utility;
 import wow.object.Bag;
 import wow.profession.Alchemy;
 import wow.profession.Herbalism;
@@ -15,9 +16,11 @@ public class Player {
 	private int busy = 0;
 	private Bag bag = new Bag();
 	private int gold;
+	private Utility u;
 	
-	public Player(){
+	public Player(Utility u){
 		this.setJobs();
+		this.u = u;
 	}
 	
 	private void setJobs(){
@@ -39,6 +42,10 @@ public class Player {
 		}
 	}
 	
+	public void earn(int gold){
+		this.gold += gold;
+	}
+	
 	/**
 	 * Bloque le joueur pour h heures 
 	 * @param h
@@ -57,5 +64,9 @@ public class Player {
 	
 	public int getGold(){
 		return this.gold;
+	}
+	
+	public Utility getUtility(){
+		return this.u;
 	}
 }
