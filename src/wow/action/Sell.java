@@ -16,12 +16,15 @@ public class Sell extends Action {
 	}
 
 	@Override
-	public void run(Player p, Environment e) {
-		assert(this.isrunnable(p, e));
-		Sale sale = new Sale(p, this.object, this.price);
-		e.ah().addSale(sale);
-		p.getBag().remove(this.object, 1);
-		p.earn((int)(-0.6*this.object.sellPrice())); //Depot
+	public boolean run(Player p, Environment e) {
+		if(this.isrunnable(p, e)){	
+			Sale sale = new Sale(p, this.object, this.price);
+			e.ah().addSale(sale);
+			p.getBag().remove(this.object, 1);
+			p.earn((int)(-0.6*this.object.sellPrice())); //Depot
+			return true;
+		}
+		return false;
 	}
 
 	@Override

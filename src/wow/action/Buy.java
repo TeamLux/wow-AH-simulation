@@ -12,14 +12,17 @@ public class Buy extends Action {
 	}
 
 	@Override
-	public void run(Player p, Environment e) {
-		assert(this.isrunnable(p, e));
-		e.ah().removeSale(this.sale);
-		//Buyer
-		p.earn(-this.sale.getPrice());
-		p.getBag().add(this.sale.getObject(), 1);
-		//Seller
-		this.sale.getSeller().earn((int)(this.sale.getPrice()*0.95));
+	public boolean run(Player p, Environment e) {
+		if(this.isrunnable(p, e)){		
+			e.ah().removeSale(this.sale);
+			//Buyer
+			p.earn(-this.sale.getPrice());
+			p.getBag().add(this.sale.getObject(), 1);
+			//Seller
+			this.sale.getSeller().earn((int)(this.sale.getPrice()*0.95));
+			return true;
+		}
+		return false;
 	}
 
 	@Override

@@ -18,11 +18,13 @@ public final class CreatPotion extends Action {
 	 * Crée une potion
 	 */
 	@Override
-	public void run(Player p, Environment e) {
-		assert(this.isrunnable(p, e));
-		p.getBag().remove(Plante.getInstance(), 3);
-		p.getBag().add(Potion.getInstance(), 1);
-		
+	public boolean run(Player p, Environment e) {
+		if(this.isrunnable(p, e)){	
+			p.getBag().remove(Plante.getInstance(), 3);
+			p.getBag().add(Potion.getInstance(), 1);
+			return true;
+		}
+		return false;	
 	}
 
 	@Override

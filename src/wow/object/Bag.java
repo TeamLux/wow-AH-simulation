@@ -19,7 +19,10 @@ public class Bag {
 	}
 	
 	public void remove(WowObject o, int q){
-		assert(this.has(o, q));
 		objects.put(o.id(), objects.get(o.id()) - q);
+	}
+	
+	public int howMany(WowObject o){
+		return objects.get(o.id());
 	}
 }

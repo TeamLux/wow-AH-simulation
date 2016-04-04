@@ -18,6 +18,9 @@ public class Player {
 	private int gold;
 	private Utility u;
 	
+	public final static int MAX_STUFF =  16;
+	private int stuff = 0;
+	
 	public Player(Utility u){
 		this.setJobs();
 		this.u = u;
@@ -46,6 +49,15 @@ public class Player {
 		this.gold += gold;
 	}
 	
+	public void addOneStuff(){
+		if(this.stuff < Player.MAX_STUFF)
+			this.stuff++;
+	}
+	
+	public void clearStuff(){
+		this.stuff = 0;
+	}
+	
 	/**
 	 * Bloque le joueur pour h heures 
 	 * @param h
@@ -68,5 +80,9 @@ public class Player {
 	
 	public Utility getUtility(){
 		return this.u;
+	}
+	
+	public int getStuff(){
+		return this.stuff;
 	}
 }

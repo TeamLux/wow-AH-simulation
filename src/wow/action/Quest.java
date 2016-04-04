@@ -1,26 +1,22 @@
 package wow.action;
 
 import wow.envrionment.Environment;
-import wow.object.Plante;
 import wow.player.Player;
 
-public final class HerbGathering extends Action {
-
-	private static final HerbGathering singleton = new HerbGathering();
-	private HerbGathering() {}
+public class Quest extends Action {
 	
-	public static HerbGathering getInstance(){
+	private static final Quest singleton = new Quest();
+	private Quest() {}
+	
+	public static Quest getInstance(){
 		return singleton;
 	}
 	
-	/**
-	 * Crée 100 plantes pour le joueur p 
-	 */
 	@Override
 	public boolean run(Player p, Environment e) {
-		if(this.isrunnable(p, e)){	
+		if(this.isrunnable(p, e)){
 			p.busyFor(1);
-			p.getBag().add(Plante.getInstance(), 100);
+			p.earn(100);
 			return true;
 		}
 		return false;
@@ -36,5 +32,5 @@ public final class HerbGathering extends Action {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
+
 }

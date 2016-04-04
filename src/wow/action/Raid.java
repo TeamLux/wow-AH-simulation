@@ -1,26 +1,21 @@
 package wow.action;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import wow.envrionment.Environment;
 import wow.object.Plante;
 import wow.player.Player;
 
-public final class HerbGathering extends Action {
+public class Raid extends Action {
 
-	private static final HerbGathering singleton = new HerbGathering();
-	private HerbGathering() {}
-	
-	public static HerbGathering getInstance(){
-		return singleton;
-	}
-	
-	/**
-	 * Crée 100 plantes pour le joueur p 
-	 */
 	@Override
 	public boolean run(Player p, Environment e) {
-		if(this.isrunnable(p, e)){	
-			p.busyFor(1);
-			p.getBag().add(Plante.getInstance(), 100);
+		if(this.isrunnable(p, e)){
+			int r = ThreadLocalRandom.current().nextInt(0,Player.MAX_STUFF);
+			int q = p.getBag().howMany(Plante.getInstance());
+			if(r < (q+p.getStuff()))
+				p.addOneStuff();
+			p.getBag().remove(Plante.getInstance(), Math.min(q,Player.MAX_STUFF));
 			return true;
 		}
 		return false;
@@ -28,6 +23,7 @@ public final class HerbGathering extends Action {
 
 	@Override
 	public boolean isrunnable(Player p, Environment e) {
+		//TODO
 		return !p.isBusy();
 	}
 
@@ -36,5 +32,5 @@ public final class HerbGathering extends Action {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
+
 }
