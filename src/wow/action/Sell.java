@@ -5,7 +5,7 @@ import wow.envrionment.Environment;
 import wow.object.WowObject;
 import wow.player.Player;
 
-public class Sell extends Action {
+public final class Sell extends Action {
 	
 	private WowObject object;
 	private int price;

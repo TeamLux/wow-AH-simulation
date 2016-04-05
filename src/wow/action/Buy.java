@@ -4,15 +4,16 @@ import wow.ah.Sale;
 import wow.envrionment.Environment;
 import wow.player.Player;
 
-public class Buy extends Action {
+public final class Buy extends Action {
 	
 	Sale sale;
+	
 	public Buy(Sale sale){
 		this.sale = sale;
 	}
 
 	@Override
-	public boolean run(Player p, Environment e) {
+	public synchronized boolean run(Player p, Environment e) {
 		if(this.isrunnable(p, e)){		
 			e.ah().removeSale(this.sale);
 			//Buyer

@@ -2,8 +2,15 @@ package wow.ah;
 
 import java.util.ArrayList;
 
+import wow.action.Action;
+import wow.action.Buy;
+import wow.action.Sell;
+import wow.envrionment.Environment;
+import wow.player.Player;
+
 public class AH {
 	private static ArrayList<Sale> sales = new ArrayList<Sale>();
+	private static ArrayList<Buy> buys = new ArrayList<Buy>();
 	
 	private static AH singleton = new AH();
 	private AH() {}
@@ -12,27 +19,31 @@ public class AH {
 		return singleton;
 	}
 	
-	public static ArrayList<Sale> getSales(){
-		return sales;
-	}
-	
-	public void addSale(Sale sale){
+	public synchronized void addSale(Sale sale){
 		sales.add(sale);
+		buys.add(new Buy(sale));
 	}
 	
-	public void removeSale(Sale sale){
-		sales.remove(sale);
+	public synchronized void removeSale(Sale sale){
+		int i = sales.indexOf(sale);
+		sales.remove(i);
+		buys.remove(i);
 	}
 	
-	public boolean hasSale(Sale sale){
+	public synchronized boolean hasSale(Sale sale){
 		return sales.contains(sale);
 	}
 	
 	public void oneHourAhead(){
 		for (Sale sale : sales){
 			if(sale.oneHourAhead()){
-				sales.remove(sale);
+				this.removeSale(sale);
 			}
 		}
 	}
+	
+	public ArrayList<Buy> getBuyAnctions(){
+		return buys;
+	}
+
 }

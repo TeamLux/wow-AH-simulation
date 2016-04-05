@@ -3,7 +3,7 @@ package wow.action;
 import wow.envrionment.Environment;
 import wow.player.Player;
 
-public class Quest extends Action {
+public final class Quest extends Action {
 	
 	private static final Quest singleton = new Quest();
 	private Quest() {}

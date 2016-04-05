@@ -6,8 +6,15 @@ import wow.envrionment.Environment;
 import wow.object.Plante;
 import wow.player.Player;
 
-public class Raid extends Action {
+public final class Raid extends Action {
 
+	private static final Raid singleton = new Raid();
+	private Raid() {}
+	
+	public static Raid getInstance(){
+		return singleton;
+	}
+	
 	@Override
 	public boolean run(Player p, Environment e) {
 		if(this.isrunnable(p, e)){
