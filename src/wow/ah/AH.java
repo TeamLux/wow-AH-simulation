@@ -2,11 +2,7 @@ package wow.ah;
 
 import java.util.ArrayList;
 
-import wow.action.Action;
 import wow.action.Buy;
-import wow.action.Sell;
-import wow.envrionment.Environment;
-import wow.player.Player;
 
 public class AH {
 	private static ArrayList<Sale> sales = new ArrayList<Sale>();

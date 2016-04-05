@@ -2,7 +2,6 @@ package wow.player;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.concurrent.ThreadLocalRandom;
 
 import utility.Utility;
 import wow.object.Bag;
