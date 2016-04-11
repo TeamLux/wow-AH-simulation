@@ -24,13 +24,13 @@ public final class Quest extends Action {
 
 	@Override
 	public boolean isrunnable(Player p, Environment e) {
-		return !p.isBusy();
+		return p.canDo();
 	}
 
 	@Override
-	public int potentielUtility(Player p, Environment e) {
-		// TODO Auto-generated method stub
-		return 0;
+	public double potentielUtility(Player p, Environment e) {
+		double newU = p.getUtility().f(p.getGold()+100, p.getStuff(), p.getBag());
+		return (newU - p.currentUtility());
 	}
 
 }

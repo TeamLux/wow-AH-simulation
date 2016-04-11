@@ -8,6 +8,7 @@ public class RaidSchedule {
 	}
 	
 	public boolean timeToRaid(){
+		//TODO
 		return false;
 	}
 }

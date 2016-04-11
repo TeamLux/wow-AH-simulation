@@ -3,6 +3,7 @@ package wow.action;
 import java.util.concurrent.ThreadLocalRandom;
 
 import wow.envrionment.Environment;
+import wow.object.Bag;
 import wow.object.Potion;
 import wow.player.Player;
 
@@ -30,13 +31,11 @@ public final class Raid extends Action {
 
 	@Override
 	public boolean isrunnable(Player p, Environment e) {
-		//TODO
-		return !p.isBusy();
+		return p.canDo();
 	}
 
 	@Override
-	public int potentielUtility(Player p, Environment e) {
-		// TODO Auto-generated method stub
+	public double potentielUtility(Player p, Environment e) {
 		return 0;
 	}
 

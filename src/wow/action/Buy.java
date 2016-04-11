@@ -2,6 +2,8 @@ package wow.action;
 
 import wow.ah.Sale;
 import wow.envrionment.Environment;
+import wow.object.Bag;
+import wow.object.Plante;
 import wow.player.Player;
 
 public final class Buy extends Action {
@@ -29,13 +31,15 @@ public final class Buy extends Action {
 
 	@Override
 	public boolean isrunnable(Player p, Environment e) {
-		return !p.isBusy() && p.getGold() > this.sale.getPrice() && e.ah().hasSale(this.sale);
+		return p.canDo() && p.getGold() > this.sale.getPrice() && e.ah().hasSale(this.sale);
 	}
 
 	@Override
-	public int potentielUtility(Player p, Environment e) {
-		// TODO Auto-generated method stub
-		return 0;
+	public double potentielUtility(Player p, Environment e) {
+		Bag tmpBag = new Bag(p.getBag());
+		tmpBag.add(this.sale.getObject(), 1);
+		double newU = p.getUtility().f(p.getGold()-this.sale.getPrice(), p.getStuff(),tmpBag);
+		return (newU - p.currentUtility());
 	}
 
 }

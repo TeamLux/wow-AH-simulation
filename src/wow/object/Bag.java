@@ -7,7 +7,11 @@ public class Bag {
 	Map<Integer, Integer> objects;
 	
 	public Bag(){
-		objects = new Hashtable<Integer, Integer>();
+		this.objects = new Hashtable<Integer, Integer>();
+	}
+	
+	public Bag(Bag bag){
+		this.objects = new Hashtable<Integer, Integer>(bag.objects);
 	}
 	
 	public void add(WowObject o, int q){
@@ -24,5 +28,9 @@ public class Bag {
 	
 	public int howMany(WowObject o){
 		return objects.get(o.id());
+	}
+	
+	public int howMany(int i){
+		return objects.get(i);
 	}
 }

@@ -2,6 +2,7 @@ package wow.action;
 
 import wow.ah.Sale;
 import wow.envrionment.Environment;
+import wow.object.Bag;
 import wow.object.WowObject;
 import wow.player.Player;
 
@@ -29,13 +30,15 @@ public final class Sell extends Action {
 
 	@Override
 	public boolean isrunnable(Player p, Environment e) {
-		return !p.isBusy() && p.getBag().has(this.object, 1);
+		return p.canDo() && p.getBag().has(this.object, 1);
 	}
 
 	@Override
-	public int potentielUtility(Player p, Environment e) {
-		// TODO Auto-generated method stub
-		return 0;
+	public double potentielUtility(Player p, Environment e) {
+		Bag tmpBag = new Bag(p.getBag());
+		tmpBag.remove(this.object, 1);
+		double newU = p.getUtility().f(p.getGold()+(int)(this.price*0.95), p.getStuff(),tmpBag);
+		return (newU - p.currentUtility());
 	}
 
 }

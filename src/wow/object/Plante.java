@@ -11,7 +11,7 @@ public final class Plante extends WowObject {
 	
 	@Override
 	public int id() {
-		return 1;
+		return 0;
 	}
 
 	@Override

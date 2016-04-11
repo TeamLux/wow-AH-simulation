@@ -2,6 +2,7 @@ package wow.player;
 
 import java.util.ArrayList;
 
+import function.AHSchedule;
 import function.RaidSchedule;
 import function.Sleep;
 import function.Utility;
@@ -21,16 +22,18 @@ public class Player implements Runnable, Buyer, Consumer,Producer,Seller{
 	private RaidSchedule rs;
 	private Sleep s;
 	private Environment e;
+	private AHSchedule ahs;
 	
 	public final static int MAX_STUFF =  16;
 	private int stuff = 0;
 	
-	public Player(Utility u, RaidSchedule rs, Sleep s, Environment e, ArrayList<Job> jobs){
+	public Player(Utility u, RaidSchedule rs, Sleep s, Environment e, AHSchedule ahs, ArrayList<Job> jobs){
 		this.u = u;
 		this.rs = rs;
 		this.s = s;
 		this.e = e;
 		this.jobs = jobs;
+		this.ahs = ahs;
 	}
 	
 	@Override
@@ -48,10 +51,16 @@ public class Player implements Runnable, Buyer, Consumer,Producer,Seller{
 		}
 		
 		//Player doesn't sleep and isn't busy
-		
 		if(rs.timeToRaid()){
+			this.runAH();
 			Raid.getInstance().run(this, this.e);
 			return;
+		}
+		else if(ahs.timeToAH()){
+			this.runAH();
+		}
+		else{
+			this.runNonAh();
 		}
 	}
 	
@@ -86,6 +95,10 @@ public class Player implements Runnable, Buyer, Consumer,Producer,Seller{
 		return busy > 0;
 	}
 	
+	public boolean canDo(){
+		return !this.sleep && !this.isBusy();
+	}
+	
 	public Bag getBag(){
 		return this.bag;
 	}
@@ -98,7 +111,19 @@ public class Player implements Runnable, Buyer, Consumer,Producer,Seller{
 		return this.u;
 	}
 	
+	public double currentUtility(){
+		return this.u.f(this.gold,this.stuff,this.bag);
+	}
+	
 	public int getStuff(){
 		return this.stuff;
+	}
+	
+	private void runAH(){
+		
+	}
+	
+	private void runNonAh(){
+		
 	}
 }

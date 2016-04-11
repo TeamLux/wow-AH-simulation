@@ -38,7 +38,7 @@ public class AH {
 		}
 	}
 	
-	public ArrayList<Buy> getBuyAnctions(){
+	public ArrayList<Buy> getBuyActions(){
 		return buys;
 	}
 

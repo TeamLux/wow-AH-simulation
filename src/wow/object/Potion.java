@@ -11,7 +11,7 @@ public class Potion extends WowObject {
 	
 	@Override
 	public int id() {
-		return 2;
+		return 1;
 	}
 
 	@Override
