@@ -3,7 +3,7 @@ package wow.profession;
 import java.util.ArrayList;
 
 import wow.action.Action;
-import wow.action.CreatPotion;
+import wow.action.CreatePotion;
 
 public final class Alchemy extends Job {
 
@@ -18,7 +18,7 @@ public final class Alchemy extends Job {
 	@Override
 	public ArrayList<Action> getActions() {
 		ArrayList<Action> actions = new ArrayList<Action>();
-		actions.add(CreatPotion.getInstance());
+		actions.add(CreatePotion.getInstance());
 		return actions;
 	}
 }

@@ -22,7 +22,7 @@ public final class Raid extends Action {
 			int q = p.getBag().howMany(Potion.getInstance());
 			if(r < (q+p.getStuff()))
 				p.addOneStuff();
-			p.consum(Potion.getInstance(), Math.min(q,Player.MAX_STUFF));
+			p.consume(Potion.getInstance(), Math.min(q,Player.MAX_STUFF));
 			return true;
 		}
 		return false;

@@ -56,7 +56,7 @@ public class Player implements Runnable, Buyer, Consumer,Producer,Seller{
 	}
 	
 	@Override
-	public void consum(WowObject o, int quantity) {
+	public void consume(WowObject o, int quantity) {
 		this.bag.remove(o, quantity);
 		
 	}

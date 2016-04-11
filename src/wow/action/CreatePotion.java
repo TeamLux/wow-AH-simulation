@@ -5,12 +5,12 @@ import wow.object.Plante;
 import wow.object.Potion;
 import wow.player.Player;
 
-public final class CreatPotion extends Action {
+public final class CreatePotion extends Action {
 
-	private static final CreatPotion singleton = new CreatPotion();
-	private CreatPotion() {}
+	private static final CreatePotion singleton = new CreatePotion();
+	private CreatePotion() {}
 	
-	public static CreatPotion getInstance(){
+	public static CreatePotion getInstance(){
 		return singleton;
 	}
 	
@@ -20,7 +20,7 @@ public final class CreatPotion extends Action {
 	@Override
 	public boolean run(Player p, Environment e) {
 		if(this.isrunnable(p, e)){	
-			p.getBag().remove(Plante.getInstance(), 3);
+			p.consume(Plante.getInstance(), 3);
 			p.getBag().add(Potion.getInstance(), 1);
 			return true;
 		}
