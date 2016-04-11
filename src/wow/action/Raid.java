@@ -3,7 +3,7 @@ package wow.action;
 import java.util.concurrent.ThreadLocalRandom;
 
 import wow.envrionment.Environment;
-import wow.object.Plante;
+import wow.object.Potion;
 import wow.player.Player;
 
 public final class Raid extends Action {
@@ -19,10 +19,10 @@ public final class Raid extends Action {
 	public boolean run(Player p, Environment e) {
 		if(this.isrunnable(p, e)){
 			int r = ThreadLocalRandom.current().nextInt(0,Player.MAX_STUFF);
-			int q = p.getBag().howMany(Plante.getInstance());
+			int q = p.getBag().howMany(Potion.getInstance());
 			if(r < (q+p.getStuff()))
 				p.addOneStuff();
-			p.getBag().remove(Plante.getInstance(), Math.min(q,Player.MAX_STUFF));
+			p.consum(Potion.getInstance(), Math.min(q,Player.MAX_STUFF));
 			return true;
 		}
 		return false;

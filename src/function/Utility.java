@@ -1,4 +1,4 @@
-package utility;
+package function;
 
 import wow.object.Bag;
 
