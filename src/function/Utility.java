@@ -1,6 +1,7 @@
 package function;
 
 import wow.object.Bag;
+import wow.object.WowObject;
 
 public class Utility {
 	boolean logGold;
@@ -10,16 +11,31 @@ public class Utility {
 		this.parameters = parameters;
 	}
 	
-	public double f(int gold, int stuff, Bag bag){
+	public double f(int gold, int stuff, int tired, Bag bag){
 		double res = 0;
 		if(logGold)
-			res+=this.parameters[0]*Math.log(gold);
+			res+=Math.log(gold)/Math.log(this.parameters[0]);
 		else
 			res+=this.parameters[0]*gold;
 		res+=this.parameters[1]*stuff;
-		for (int i = 2; i < parameters.length; i++) {
-			res+=this.parameters[i]*bag.howMany(i-2);
+		
+		res-=tired*this.parameters[2];
+		
+		for (int i = 3; i < parameters.length; i++) {
+			res+=this.parameters[i]*bag.howMany(i-3);
 		}
 		return res;
+	}
+	
+	public int minPriceForSale(int gold, WowObject o){
+		int res;
+		if(logGold){
+			 res = (int) (gold*(Math.pow(this.parameters[0],this.parameters[o.id()+3])-1))+1;
+		}
+		else{
+			res = (int) (this.parameters[o.id()+3]/this.parameters[0])+1;
+		}
+		return res;
+		
 	}
 }

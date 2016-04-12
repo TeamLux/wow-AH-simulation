@@ -21,6 +21,7 @@ public final class HerbGathering extends Action {
 	public boolean run(Player p, Environment e) {
 		if(this.isrunnable(p, e)){	
 			p.busyFor(1);
+			p.tiredFor(2);
 			p.getBag().add(Plante.getInstance(), 100);
 			return true;
 		}
@@ -36,7 +37,7 @@ public final class HerbGathering extends Action {
 	public double potentielUtility(Player p, Environment e) {
 		Bag tmpBag = new Bag(p.getBag());
 		tmpBag.add(Plante.getInstance(), 100);
-		double newU = p.getUtility().f(p.getGold(), p.getStuff(),tmpBag);
+		double newU = p.getUtility().f(p.getGold(), p.getStuff(),p.isTiredFor()*2,tmpBag);
 		return (newU - p.currentUtility());
 	}
 	

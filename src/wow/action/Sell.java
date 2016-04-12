@@ -37,7 +37,7 @@ public final class Sell extends Action {
 	public double potentielUtility(Player p, Environment e) {
 		Bag tmpBag = new Bag(p.getBag());
 		tmpBag.remove(this.object, 1);
-		double newU = p.getUtility().f(p.getGold()+(int)(this.price*0.95), p.getStuff(),tmpBag);
+		double newU = p.getUtility().f(p.getGold()+(int)(this.price*0.95), p.getStuff(),p.isTiredFor(),tmpBag);
 		return (newU - p.currentUtility());
 	}
 

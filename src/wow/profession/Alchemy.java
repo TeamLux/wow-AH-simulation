@@ -21,4 +21,9 @@ public final class Alchemy extends Job {
 		actions.add(CreatePotion.getInstance());
 		return actions;
 	}
+
+	@Override
+	public boolean isFast() {
+		return true;
+	}
 }

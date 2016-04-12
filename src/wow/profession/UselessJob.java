@@ -18,4 +18,9 @@ public class UselessJob extends Job {
 		return new ArrayList<Action>();
 	}
 
+	@Override
+	public boolean isFast() {
+		return false;
+	}
+
 }

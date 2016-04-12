@@ -38,7 +38,7 @@ public final class CreatePotion extends Action {
 		Bag tmpBag = new Bag(p.getBag());
 		tmpBag.add(Potion.getInstance(), 1);
 		tmpBag.remove(Plante.getInstance(), 3);
-		double newU = p.getUtility().f(p.getGold(), p.getStuff(),tmpBag);
+		double newU = p.getUtility().f(p.getGold(), p.getStuff(),p.isTiredFor(),tmpBag);
 		return (newU - p.currentUtility());
 	}
 	

@@ -3,7 +3,6 @@ package wow.action;
 import java.util.concurrent.ThreadLocalRandom;
 
 import wow.envrionment.Environment;
-import wow.object.Bag;
 import wow.object.Potion;
 import wow.player.Player;
 

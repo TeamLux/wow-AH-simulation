@@ -21,4 +21,9 @@ public final class Herbalism extends Job {
 		actions.add(HerbGathering.getInstance());
 		return actions;
 	}
+
+	@Override
+	public boolean isFast() {
+		return false;
+	}
 }

@@ -6,6 +6,8 @@ public class SellLearing {
 	double[] nbToSell = new double[7*24];
 	int[] history = new int[7*24];
 	double alpha;
+	int avgPrice = 0;
+	
 	
 	public SellLearing(double alpha){
 		for (int i = 0; i < nbToSell.length; i++) {
@@ -25,14 +27,28 @@ public class SellLearing {
 		}
 		else{
 			//Exploit
-			res = Math.min((int)nbToSell[i],max);
+			res = (int)nbToSell[i];
 		}
 		return res;
 	}
 	
-	public void update(int reward, int day, int hour){
+	public int sellPrice(int min, int marketPrice, boolean imTheBest){
+		if(imTheBest){
+			return marketPrice;
+		}
+		else if(marketPrice == 0){//No object on the market
+			return Math.max(min, avgPrice);
+		}
+		else{
+			double r = ThreadLocalRandom.current().nextDouble();
+			return (int)(marketPrice-r*(marketPrice-min));
+		}
+	}
+	
+	public void update(int reward, int day, int hour, int price){
 		int i = day*24 + hour;
 		history[i]+=1;
 		nbToSell[i] += this.alpha*(reward-nbToSell[i]);
+		avgPrice += this.alpha*(price-avgPrice);
 	}
 }

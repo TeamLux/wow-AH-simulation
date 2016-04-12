@@ -17,6 +17,7 @@ public final class Quest extends Action {
 		if(this.isrunnable(p, e)){
 			p.busyFor(1);
 			p.earn(100);
+			p.hasDoQuest = true;
 			return true;
 		}
 		return false;
@@ -24,12 +25,12 @@ public final class Quest extends Action {
 
 	@Override
 	public boolean isrunnable(Player p, Environment e) {
-		return p.canDo();
+		return p.canDo() && !p.hasDoQuest;
 	}
 
 	@Override
 	public double potentielUtility(Player p, Environment e) {
-		double newU = p.getUtility().f(p.getGold()+100, p.getStuff(), p.getBag());
+		double newU = p.getUtility().f(p.getGold()+100, p.getStuff(),p.isTiredFor(), p.getBag());
 		return (newU - p.currentUtility());
 	}
 

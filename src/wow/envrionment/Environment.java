@@ -1,7 +1,10 @@
 package wow.envrionment;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
+import wow.action.Action;
+import wow.action.Quest;
 import wow.ah.AH;
 
 public class Environment {
@@ -31,5 +34,11 @@ public class Environment {
 	
 	public AH ah(){
 		return ah;
+	}
+	
+	public ArrayList<Action> getActions(){
+		ArrayList<Action> actions = new ArrayList<Action>();
+		actions.add(Quest.getInstance());
+		return actions;
 	}
 }

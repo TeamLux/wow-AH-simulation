@@ -55,11 +55,15 @@ public class AH {
 		return buys.get(sales.indexOf(bestSales.get(o)));
 	}
 	
+	public Sale getBestSale(WowObject o){
+		return bestSales.get(o);
+	}
+	
 	private synchronized void updateBest(WowObject o){
 		Sale best = null;
 		for (Sale sale : sales) {
 			if(!sale.getObject().equals(o))
-				break;
+				continue;
 			if(best == null || best.getPrice()>sale.getPrice()){
 				best = sale;
 			}

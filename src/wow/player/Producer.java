@@ -1,5 +1,9 @@
 package wow.player;
 
-public interface Producer {
+import java.util.ArrayList;
 
+import wow.action.Action;
+
+public interface Producer {
+	ArrayList<Action> getPorducerAction(boolean isFast);
 }
