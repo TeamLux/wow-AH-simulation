@@ -4,10 +4,10 @@ import wow.object.WowObject;
 import wow.player.Player;
 
 public class Sale {
-	Player seller;
-	WowObject object;
-	int price;
-	int timeLeft;
+	private Player seller;
+	private WowObject object;
+	private int price;
+	private int timeLeft;
 	
 	public Sale(Player p, WowObject o, int price){
 		this.seller = p;
