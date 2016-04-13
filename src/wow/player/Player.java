@@ -1,6 +1,7 @@
 package wow.player;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 import function.AHSchedule;
 import function.RaidSchedule;
@@ -18,7 +19,7 @@ import wow.object.WowObjects;
 import wow.profession.Job;
 
 public class Player implements Runnable, Buyer, Consumer,Producer,Seller{
-	public ArrayList<Job> jobs = new ArrayList<Job>(4);
+	public ArrayList<Job> jobs;
 	private int busy = 0;
 	private boolean sleep = true;
 	private Bag bag = new Bag();
@@ -29,9 +30,10 @@ public class Player implements Runnable, Buyer, Consumer,Producer,Seller{
 	private Environment e;
 	private AHSchedule ahs;
 	private SellLearing[] sls;
-	private int tired = 0;
+	private int tired = 1;
+	private Hashtable<WowObject,ArrayList<Sale>> saleSucceed = new  Hashtable<WowObject,ArrayList<Sale>>();
+	private Hashtable<WowObject,Integer> priceSucceed = new  Hashtable<WowObject,Integer>();
 	public boolean hasDoQuest = false;
-	
 	public final static int MAX_STUFF =  16;
 	private int stuff = 0;
 	
@@ -45,16 +47,20 @@ public class Player implements Runnable, Buyer, Consumer,Producer,Seller{
 		this.sls = new SellLearing[WowObjects.size()];
 		for (int i = 0; i < sls.length; i++) {
 			sls[i] = new SellLearing(alpha);
+			saleSucceed.put(WowObjects.get(i),new ArrayList<Sale>());
+			priceSucceed.put(WowObjects.get(i),0);
 		}
 	}
 	
 	@Override
 	public void run() {
-		if (!this.sleep && this.s.deco()){
+		int day = e.getdayOfWeek();
+		int hour = e.getHour();
+		if (!this.sleep && this.s.deco(day,hour)){
 			this.sleep = true;
 			return;
 		}
-		else if(this.sleep && this.s.wakeUp()){
+		else if(this.sleep && this.s.wakeUp(day,hour)){
 			this.sleep = false;
 		}
 		else if(this.sleep || this.isBusy()){
@@ -63,12 +69,12 @@ public class Player implements Runnable, Buyer, Consumer,Producer,Seller{
 		}
 		
 		//Player doesn't sleep and isn't busy
-		if(rs.timeToRaid()){
+		if(rs.timeToRaid(day,hour)){
 			this.runAH();
 			Raid.getInstance().run(this, this.e);
 			return;
 		}
-		else if(ahs.timeToAH()){
+		else if(ahs.timeToAH(day,hour)){
 			this.runAH();
 		}
 		else{
@@ -138,6 +144,28 @@ public class Player implements Runnable, Buyer, Consumer,Producer,Seller{
 	
 	public int getStuff(){
 		return this.stuff;
+	}
+	
+	public void saleSucceed (Sale sale){
+		if(sale.getSeller() != this)
+			return;
+		this.saleSucceed.get(sale.getObject()).add(sale);
+		this.priceSucceed.put(sale.getObject(),this.priceSucceed.get(sale.getObject())+sale.getPrice());
+	}
+	
+	public void oneHourAhead(){
+		this.busy=Math.max(0, this.busy-1);
+		this.tired=Math.max(1, this.tired-1);
+		for (int i = 0; i < WowObjects.size(); i++) {
+			WowObject o = WowObjects.get(i);
+			int reward = saleSucceed.get(o).size();
+			int price=0;
+			if(reward!=0)
+				price = priceSucceed.get(o)/reward;
+			sls[i].update(reward, e.getdayOfWeek(), e.getHour(), price);
+			saleSucceed.put(o, new ArrayList<Sale>());
+			priceSucceed.put(o,0);
+		}
 	}
 	
 	private void runAH(){

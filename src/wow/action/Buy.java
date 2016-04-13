@@ -23,6 +23,7 @@ public final class Buy extends Action {
 			//Seller
 			this.sale.getSeller().earn((int)(this.sale.getPrice()*0.95)); //vente
 			this.sale.getSeller().earn((int)(this.sale.getObject().sellPrice()*0.6));//dépot
+			this.sale.getSeller().saleSucceed(sale);
 			return true;
 		}
 		return false;

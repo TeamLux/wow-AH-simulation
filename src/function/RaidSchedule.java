@@ -1,12 +1,12 @@
 package function;
 
 public class RaidSchedule {
-	public RaidSchedule(){
-		
+	boolean[] function;
+	public RaidSchedule(boolean[] function){
+		this.function = function;
 	}
 	
-	public boolean timeToRaid(){
-		//TODO
-		return false;
+	public boolean timeToRaid(int day, int hour){
+		return function[day*24+hour];
 	}
 }

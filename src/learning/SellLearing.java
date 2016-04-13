@@ -49,6 +49,7 @@ public class SellLearing {
 		int i = day*24 + hour;
 		history[i]+=1;
 		nbToSell[i] += this.alpha*(reward-nbToSell[i]);
-		avgPrice += this.alpha*(price-avgPrice);
+		if(price>0)
+			avgPrice += this.alpha*(price-avgPrice);
 	}
 }

@@ -13,7 +13,8 @@ public class Environment {
 	
 	private static Environment singleton = new Environment();
 	private Environment() {
-		
+		this.ah = AH.getInstance();
+		this.cal = Calendar.getInstance();
 	}
 	
 	public static Environment getInstance(){
@@ -22,6 +23,7 @@ public class Environment {
 	
 	public void oneHourAhead(){
 		cal.add(Calendar.HOUR_OF_DAY, 1);
+		ah.oneHourAhead();
 	}
 	
 	public int getHour(){
@@ -29,7 +31,7 @@ public class Environment {
 	}
 	
 	public int getdayOfWeek(){
-		return cal.get(Calendar.DAY_OF_WEEK);
+		return cal.get(Calendar.DAY_OF_WEEK)-1;
 	}
 	
 	public AH ah(){
