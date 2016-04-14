@@ -41,15 +41,21 @@ public class SellLearing {
 		}
 		else{
 			double r = ThreadLocalRandom.current().nextDouble();
-			return (int)(marketPrice-r*(marketPrice-min));
+			if(marketPrice > min)
+				return (int)(marketPrice-r*(marketPrice-min));
+			else
+				return min;
 		}
 	}
 	
-	public void update(int reward, int day, int hour, int price){
+	public void update(int reward, int day, int hour){
 		int i = day*24 + hour;
 		history[i]+=1;
 		nbToSell[i] += this.alpha*(reward-nbToSell[i]);
-		if(price>0)
-			avgPrice += this.alpha*(price-avgPrice);
 	}
+	
+	public void priceUpdate(int price, boolean isSell){
+		this.avgPrice += this.alpha*(price*(isSell?1.05:0.95));
+	}
+	
 }

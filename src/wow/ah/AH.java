@@ -77,5 +77,14 @@ public class AH {
 		}
 		bestSales.put(o, best);	
 	}
+	
+	public int nSale(WowObject o){
+		int n =0;
+		for(Sale sale: sales){
+			if(sale.getObject().equals(o))
+				n++;
+		}
+		return n;
+	}
 
 }

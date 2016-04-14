@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.concurrent.ThreadLocalRandom;
 
 import function.AHSchedule;
@@ -10,6 +9,7 @@ import wow.ah.Sale;
 import wow.envrionment.Environment;
 import wow.object.Plante;
 import wow.object.Potion;
+import wow.object.WowObject;
 import wow.object.WowObjects;
 import wow.player.Player;
 import wow.profession.Alchemy;
@@ -31,7 +31,7 @@ public class Test {
 	public static void main(String[] args) throws InterruptedException {
 		
 		Environment e = Environment.getInstance();
-		int nPlayer = 1000;
+		int nPlayer = 100;
 		Player[] players = new Player[nPlayer];
 		Thread[] threads = new Thread[nPlayer];
 
@@ -39,8 +39,12 @@ public class Test {
 		for(int i = 0; i < nPlayer; i++){
 			players[i] = createPlayer(e);
 		}
-		
 		for(int k = 0; k < 8*7*24;k++){
+			if(k==4*7*24){
+				for(int i = 0; i < nPlayer; i++){
+					players[i].clearStuff();;
+				}
+			}
 			for(int i = 0; i < nPlayer; i++){
 				threads[i] = new Thread(players[i]);
 			}
@@ -54,17 +58,13 @@ public class Test {
 				players[i].oneHourAhead();
 			}
 			e.oneHourAhead();
-			Sale best = e.ah().getBestSale(Potion.getInstance());
+			WowObject o = Plante.getInstance();
+			Sale best = e.ah().getBestSale(o);
 			if(best != null)
-				System.out.println(best.getPrice());
-			System.out.println(e.getdayOfWeek()+":"+e.getHour());
-			for(int i = 0; i < nPlayer; i++){
-				//System.out.println(players[i].getBag().howMany(Plante.getInstance()));
-			}
-			
-		}
-		
-		
+				System.out.println(k+"\t"+best.getPrice()+"\t"+e.ah().nSale(o));
+			else
+				System.out.println(k+"\t"+0+"\t"+0);		
+		}	
 	}
 	
 	public static Player createPlayer(Environment e){
@@ -104,15 +104,15 @@ public class Test {
 		}
 		else if (jobs.size() == 2){
 			double[] parameters = {1,16*9*10000,-1,1*10000,3*10000};
-			u = new Utility(false, parameters, e, rs);
+			u = new Utility(false, parameters, e);
 		}
 		else if(jobs.contains(Herbalism.getInstance())){
 			double[] parameters = {1,16*9*10000,-1,0.8*10000,8*10000};
-			u = new Utility(false, parameters, e, rs);
+			u = new Utility(false, parameters, e);
 		}
 		else{
 			double[] parameters = {1,16*9*10000,-1,2*10000,6*10000};
-			u = new Utility(false, parameters, e, rs);
+			u = new Utility(false, parameters, e);
 		}
 		for(int i = jobs.size(); i <4; i++){
 			jobs.add(UselessJob.getInstance());

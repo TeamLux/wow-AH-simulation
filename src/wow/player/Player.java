@@ -33,11 +33,11 @@ public class Player implements Runnable, Buyer, Consumer,Producer,Seller{
 	public int[] nSell;
 	private int tired = 1;
 	private HashMap<WowObject,ArrayList<Sale>> saleSucceed = new  HashMap<WowObject,ArrayList<Sale>>();
-	private HashMap<WowObject,Integer> priceSucceed = new  HashMap<WowObject,Integer>();
 	public final static int MAX_STUFF =  16;
 	private int stuff = 0;
 	
 	public Player(Utility u, RaidSchedule rs, Sleep s, Environment e, AHSchedule ahs, ArrayList<Job> jobs, double alpha){
+		this.gold = 100*10000;
 		this.u = u;
 		this.rs = rs;
 		this.s = s;
@@ -49,7 +49,6 @@ public class Player implements Runnable, Buyer, Consumer,Producer,Seller{
 		for (int i = 0; i < sls.length; i++) {
 			sls[i] = new SellLearing(alpha);
 			saleSucceed.put(WowObjects.get(i),new ArrayList<Sale>());
-			priceSucceed.put(WowObjects.get(i),0);
 			this.nSell[i] = 0;
 		}
 	}
@@ -92,6 +91,8 @@ public class Player implements Runnable, Buyer, Consumer,Producer,Seller{
 	
 	public void earn(int gold){
 		this.gold += gold;
+		if(gold<0 && this.gold<0)
+			System.out.println(this.gold);
 	}
 	
 	public void addOneStuff(){
@@ -152,10 +153,11 @@ public class Player implements Runnable, Buyer, Consumer,Producer,Seller{
 		if(sale.getSeller() != this)
 			return;
 		this.saleSucceed.get(sale.getObject()).add(sale);
-		this.priceSucceed.put(sale.getObject(),this.priceSucceed.get(sale.getObject())+sale.getPrice());
+		this.sls[sale.getObject().id()].priceUpdate(sale.getPrice(), true);
 	}
 	
 	public void notSale(Sale sale){
+		this.sls[sale.getObject().id()].priceUpdate(sale.getPrice(), false);
 		nSell[sale.getObject().id()] -= 1;
 	}
 	
@@ -166,12 +168,8 @@ public class Player implements Runnable, Buyer, Consumer,Producer,Seller{
 			WowObject o = WowObjects.get(i);
 			if(nSell[i] > 0){
 				int reward = saleSucceed.get(o).size();
-				int price=0;
-				if(reward!=0)
-					price = priceSucceed.get(o)/reward;
-				sls[i].update(reward, e.getdayOfWeek(), e.getHour(), price);
+				sls[i].update(reward, e.getdayOfWeek(), e.getHour());
 				saleSucceed.put(o, new ArrayList<Sale>());
-				priceSucceed.put(o,0);
 				nSell[i]-=reward;
 			}
 		}

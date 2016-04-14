@@ -30,7 +30,7 @@ public final class Sell extends Action {
 
 	@Override
 	public boolean isrunnable(Player p, Environment e) {
-		return p.canDo() && p.getBag().has(this.object, 1);
+		return p.canDo() && p.getBag().has(this.object, 1) && p.getGold()>0.6*this.object.sellPrice();
 	}
 
 	@Override

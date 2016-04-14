@@ -15,7 +15,7 @@ public final class Buy extends Action {
 
 	@Override
 	public synchronized boolean run(Player p, Environment e) {
-		if(this.isrunnable(p, e)){		
+		if(this.isrunnable(p, e)&& e.ah().hasSale(this.sale)){		
 			e.ah().removeSale(this.sale);
 			//Buyer
 			p.earn(-this.sale.getPrice());
@@ -30,7 +30,7 @@ public final class Buy extends Action {
 
 	@Override
 	public boolean isrunnable(Player p, Environment e) {
-		return p.canDo() && p.getGold() > this.sale.getPrice() && e.ah().hasSale(this.sale);
+		return p.canDo() && p.getGold() > this.sale.getPrice();
 	}
 
 	@Override

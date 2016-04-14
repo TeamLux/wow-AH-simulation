@@ -55,7 +55,7 @@ public class Utility {
 		else{
 			res = (int) (this.parameters[o.id()+3]/this.parameters[0])+1;
 		}
-		return (int)(res/0.95);
+		return (int)(res/0.95)+1;
 		
 	}
 }
