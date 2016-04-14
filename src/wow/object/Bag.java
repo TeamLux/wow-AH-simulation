@@ -14,6 +14,9 @@ public class Bag {
 	
 	public Bag(){
 		this.objects = new Hashtable<WowObject, Integer>();
+		for(int i = 0; i<WowObjects.size();i++){
+			this.objects.put(WowObjects.get(i), 0);
+		}
 	}
 	
 	public Bag(Bag bag){
@@ -21,7 +24,7 @@ public class Bag {
 	}
 	
 	public void add(WowObject o, int q){
-		objects.put(o, q);
+		objects.put(o, objects.get(o)+q);
 		lastAction = ADD;
 		lastAdd = o;
 	}

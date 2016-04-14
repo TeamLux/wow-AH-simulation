@@ -2,8 +2,9 @@ package wow.object;
 
 public class WowObjects {
 	private static WowObjects singleton = new WowObjects();
-	private static WowObject[] objects = new WowObject[2];
+	private static WowObject[] objects;
 	private WowObjects() {
+		objects = new WowObject[2];
 		objects[Plante.getInstance().id()] = Plante.getInstance(); 
 		objects[Potion.getInstance().id()] = Potion.getInstance(); 
 	}

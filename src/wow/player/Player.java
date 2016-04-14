@@ -1,7 +1,7 @@
 package wow.player;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.HashMap;
 
 import function.AHSchedule;
 import function.RaidSchedule;
@@ -30,10 +30,10 @@ public class Player implements Runnable, Buyer, Consumer,Producer,Seller{
 	private Environment e;
 	private AHSchedule ahs;
 	private SellLearing[] sls;
+	public int[] nSell;
 	private int tired = 1;
-	private Hashtable<WowObject,ArrayList<Sale>> saleSucceed = new  Hashtable<WowObject,ArrayList<Sale>>();
-	private Hashtable<WowObject,Integer> priceSucceed = new  Hashtable<WowObject,Integer>();
-	public boolean hasDoQuest = false;
+	private HashMap<WowObject,ArrayList<Sale>> saleSucceed = new  HashMap<WowObject,ArrayList<Sale>>();
+	private HashMap<WowObject,Integer> priceSucceed = new  HashMap<WowObject,Integer>();
 	public final static int MAX_STUFF =  16;
 	private int stuff = 0;
 	
@@ -45,10 +45,12 @@ public class Player implements Runnable, Buyer, Consumer,Producer,Seller{
 		this.jobs = jobs;
 		this.ahs = ahs;
 		this.sls = new SellLearing[WowObjects.size()];
+		this.nSell = new int[WowObjects.size()];
 		for (int i = 0; i < sls.length; i++) {
 			sls[i] = new SellLearing(alpha);
 			saleSucceed.put(WowObjects.get(i),new ArrayList<Sale>());
 			priceSucceed.put(WowObjects.get(i),0);
+			this.nSell[i] = 0;
 		}
 	}
 	
@@ -153,18 +155,25 @@ public class Player implements Runnable, Buyer, Consumer,Producer,Seller{
 		this.priceSucceed.put(sale.getObject(),this.priceSucceed.get(sale.getObject())+sale.getPrice());
 	}
 	
+	public void notSale(Sale sale){
+		nSell[sale.getObject().id()] -= 1;
+	}
+	
 	public void oneHourAhead(){
 		this.busy=Math.max(0, this.busy-1);
 		this.tired=Math.max(1, this.tired-1);
 		for (int i = 0; i < WowObjects.size(); i++) {
 			WowObject o = WowObjects.get(i);
-			int reward = saleSucceed.get(o).size();
-			int price=0;
-			if(reward!=0)
-				price = priceSucceed.get(o)/reward;
-			sls[i].update(reward, e.getdayOfWeek(), e.getHour(), price);
-			saleSucceed.put(o, new ArrayList<Sale>());
-			priceSucceed.put(o,0);
+			if(nSell[i] > 0){
+				int reward = saleSucceed.get(o).size();
+				int price=0;
+				if(reward!=0)
+					price = priceSucceed.get(o)/reward;
+				sls[i].update(reward, e.getdayOfWeek(), e.getHour(), price);
+				saleSucceed.put(o, new ArrayList<Sale>());
+				priceSucceed.put(o,0);
+				nSell[i]-=reward;
+			}
 		}
 	}
 	
@@ -199,9 +208,9 @@ public class Player implements Runnable, Buyer, Consumer,Producer,Seller{
 			if(best == null)
 				break;
 			best.run(this, e);
-			
 			if(this.bag.lastAction() == Bag.REMOVE){
 				qSell[bag.lastRemove().id()] -= 1;
+				nSell[bag.lastRemove().id()] += 1;
 			}
 		}
 	}
@@ -236,11 +245,16 @@ public class Player implements Runnable, Buyer, Consumer,Producer,Seller{
 				continue;
 			Sale bestSale = e.ah().getBestSale(o);
 			int min = this.u.minPriceForSale(this.gold, o);
-			int price = sls[i].sellPrice(min, bestSale.getPrice(), bestSale.getSeller().equals(this));
-			sells.add(new Sell(o,price));
+			int price;
+			if(bestSale != null)
+				price = sls[i].sellPrice(min, bestSale.getPrice(), bestSale.getSeller().equals(this));
+			else
+				price = sls[i].sellPrice(min, 0, false);
+			Sell sell = new Sell(o,price);
+			sells.add(sell);
 			
 		}
-		return null;
+		return sells;
 	}
 
 	@Override
@@ -260,7 +274,9 @@ public class Player implements Runnable, Buyer, Consumer,Producer,Seller{
 		ArrayList<Action> buys = new ArrayList<Action>();
 		
 		for (int i = 0; i < WowObjects.size(); i++) {
-			buys.add(this.e.ah().getBestBuyActions(WowObjects.get(i)));
+			Action buy = this.e.ah().getBestBuyActions(WowObjects.get(i));
+			if(buy != null)
+			buys.add(buy);
 		}
 		return buys;
 	}

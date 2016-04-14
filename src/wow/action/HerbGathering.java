@@ -10,6 +10,7 @@ public final class HerbGathering extends Action {
 	private static final HerbGathering singleton = new HerbGathering();
 	private HerbGathering() {}
 	private final int tired = 3;
+	private final int nbPlantes = 200;
 	
 	public static HerbGathering getInstance(){
 		return singleton;
@@ -23,7 +24,7 @@ public final class HerbGathering extends Action {
 		if(this.isrunnable(p, e)){	
 			p.busyFor(1);
 			p.tiredFor(tired);
-			p.getBag().add(Plante.getInstance(), 100);
+			p.getBag().add(Plante.getInstance(), nbPlantes);
 			return true;
 		}
 		return false;
@@ -37,7 +38,7 @@ public final class HerbGathering extends Action {
 	@Override
 	public double potentielUtility(Player p, Environment e) {
 		Bag tmpBag = new Bag(p.getBag());
-		tmpBag.add(Plante.getInstance(), 100);
+		tmpBag.add(Plante.getInstance(), nbPlantes);
 		double newU = p.getUtility().f(p.getGold(), p.getStuff(),p.isTiredFor()*tired,tmpBag);
 		return (newU - p.currentUtility());
 	}
