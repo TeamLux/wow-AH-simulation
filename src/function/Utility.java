@@ -25,7 +25,7 @@ public class Utility {
 		this.rs = null;
 	}
 	
-	public double f(int gold, int stuff, int tired, Bag bag){
+	public double f(long gold, int stuff, int tired, Bag bag){
 		double res = 0;
 		if(logGold)
 			res+=Math.log(gold)/Math.log(this.parameters[0]);
@@ -41,13 +41,13 @@ public class Utility {
 		if(rs!=null){
 			int i = Plante.getInstance().id();
 			res-=this.parameters[i]*bag.howMany(i);
-			res+=(this.parameters[i]/(rs.timeTonextRaid(e.getdayOfWeek(), e.getHour())+1))*Math.min(bag.howMany(i), Player.MAX_STUFF-stuff);
+			res+=(this.parameters[i]/(rs.timeTonextRaid(e.getdayOfWeek(), e.getHour())+1))*Math.min(bag.howMany(i)+stuff, Player.MAX_STUFF);
 		}
 		
 		return res;
 	}
 	
-	public int minPriceForSale(int gold, WowObject o){
+	public int minPriceForSale(long gold, WowObject o){
 		int res;
 		if(logGold){
 			 res = (int) (gold*(Math.pow(this.parameters[0],this.parameters[o.id()+3])-1))+1;

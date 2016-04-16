@@ -2,14 +2,15 @@ package wow.envrionment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import wow.action.Action;
 import wow.action.Quest;
 import wow.ah.AH;
 
 public class Environment {
-	Calendar cal;
-	AH ah;
+	private Calendar cal;
+	private AH ah;
 	
 	private static Environment singleton = new Environment();
 	private Environment() {
@@ -34,6 +35,9 @@ public class Environment {
 		return cal.get(Calendar.DAY_OF_WEEK)-1;
 	}
 	
+	public Date getDate(){
+		return cal.getTime();
+	}
 	public AH ah(){
 		return ah;
 	}

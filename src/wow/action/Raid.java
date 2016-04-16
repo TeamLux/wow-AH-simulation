@@ -23,6 +23,7 @@ public final class Raid extends Action {
 			if(r < (q+p.getStuff()))
 				p.addOneStuff();
 			p.consume(Potion.getInstance(), Math.min(q,Player.MAX_STUFF));
+			p.busyFor(3);
 			return true;
 		}
 		return false;

@@ -23,7 +23,7 @@ public class Player implements Runnable, Buyer, Consumer,Producer,Seller{
 	private int busy = 0;
 	private boolean sleep = true;
 	private Bag bag = new Bag();
-	private int gold;
+	private long gold;
 	private Utility u;
 	private RaidSchedule rs;
 	private Sleep s;
@@ -57,28 +57,31 @@ public class Player implements Runnable, Buyer, Consumer,Producer,Seller{
 	public void run() {
 		int day = e.getdayOfWeek();
 		int hour = e.getHour();
+//		System.out.println(e.getHour());
 		if (!this.sleep && this.s.deco(day,hour)){
 			this.sleep = true;
+//			System.out.println("SLEEP");
 			return;
 		}
 		else if(this.sleep && this.s.wakeUp(day,hour)){
+//			System.out.println("WAKEUP");
 			this.sleep = false;
 		}
 		else if(this.sleep || this.isBusy()){
-			this.busy = Math.max(this.busy-1, 0);
+//			System.out.println(this.sleep+" "+this.isBusy());
 			return;
 		}
-		
+//		System.out.println("CONNECTED");
 		//Player doesn't sleep and isn't busy
-		if(rs.timeToRaid(day,hour)){
+		if(ahs.timeToAH(day,hour)){
+//			System.out.println("AH");
 			this.runAH();
-			Raid.getInstance().run(this, this.e);
+			if(rs.timeToRaid(day, hour))
+				Raid.getInstance().run(this, this.e);
 			return;
-		}
-		else if(ahs.timeToAH(day,hour)){
-			this.runAH();
 		}
 		else{
+//			System.out.println("NONAH");
 			this.runNonAh();
 		}
 	}
@@ -102,6 +105,9 @@ public class Player implements Runnable, Buyer, Consumer,Producer,Seller{
 	
 	public void clearStuff(){
 		this.stuff = 0;
+//		for (int i = 0; i < this.sls.length; i++) {
+//			this.sls[i].resetHistory();
+//		}
 	}
 	
 	/**
@@ -133,7 +139,7 @@ public class Player implements Runnable, Buyer, Consumer,Producer,Seller{
 		return this.bag;
 	}
 	
-	public int getGold(){
+	public long getGold(){
 		return this.gold;
 	}
 	

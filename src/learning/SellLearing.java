@@ -8,7 +8,6 @@ public class SellLearing {
 	double alpha;
 	int avgPrice = 0;
 	
-	
 	public SellLearing(double alpha){
 		for (int i = 0; i < nbToSell.length; i++) {
 			nbToSell[i] = 0;
@@ -23,11 +22,11 @@ public class SellLearing {
 		int res = 0;
 		if(r<1/history[i]){
 			//Explore
-			res = max;
+			res = (int)(ThreadLocalRandom.current().nextDouble()*max);
 		}
 		else{
-			//Exploit
-			res = (int)nbToSell[i];
+			//Exploit +/- 
+			res = (int)(nbToSell[i])+1;
 		}
 		return res;
 	}
@@ -41,10 +40,11 @@ public class SellLearing {
 		}
 		else{
 			double r = ThreadLocalRandom.current().nextDouble();
-			if(marketPrice > min)
-				return (int)(marketPrice-r*(marketPrice-min));
-			else
-				return min;
+			return (int)(marketPrice-r*(marketPrice-min));
+//			if(marketPrice > min)
+//				return (int)(marketPrice-r*(marketPrice-min));
+//			else
+//				return min;
 		}
 	}
 	
@@ -55,7 +55,13 @@ public class SellLearing {
 	}
 	
 	public void priceUpdate(int price, boolean isSell){
-		this.avgPrice += this.alpha*(price*(isSell?1.05:0.95));
+		this.avgPrice += this.alpha*(price*(isSell?1.05:0.95)-this.avgPrice);
+	}
+	
+	public void resetHistory(){
+		for (int i = 0; i < nbToSell.length; i++) {
+			history[i] = 1;
+		}
 	}
 	
 }

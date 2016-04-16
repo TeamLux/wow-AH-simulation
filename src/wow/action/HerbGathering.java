@@ -10,7 +10,7 @@ public final class HerbGathering extends Action {
 	private static final HerbGathering singleton = new HerbGathering();
 	private HerbGathering() {}
 	private final int tired = 3;
-	private final int nbPlantes = 20;
+	private final int nbPlantes = 5;
 	
 	public static HerbGathering getInstance(){
 		return singleton;

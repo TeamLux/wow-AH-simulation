@@ -10,6 +10,9 @@ public class AH {
 	private static ArrayList<Sale> sales = new ArrayList<Sale>();
 	private static ArrayList<Buy> buys = new ArrayList<Buy>();
 	
+	private static ArrayList<Sale> hasBeenBuy = new ArrayList<Sale>();
+	private static ArrayList<Sale> hasBeenUpToSell = new ArrayList<Sale>();
+	
 	private static AH singleton = new AH();
 	private static HashMap<WowObject,Sale> bestSales = new HashMap<WowObject,Sale>();
 	private AH() {}
@@ -19,6 +22,7 @@ public class AH {
 	}
 	
 	public synchronized void addSale(Sale sale){
+		hasBeenUpToSell.add(sale);
 		sales.add(sale);
 		buys.add(new Buy(sale));
 		if(bestSales.get(sale.getObject()) == null){
@@ -43,6 +47,8 @@ public class AH {
 	}
 	
 	public void oneHourAhead(){
+		hasBeenBuy.clear();
+		hasBeenUpToSell.clear();
 		for (int i = sales.size()-1; i >= 0; i--) {
 			Sale sale = sales.get(i);
 			if(sale.oneHourAhead()){
@@ -78,9 +84,70 @@ public class AH {
 		bestSales.put(o, best);	
 	}
 	
+	public synchronized void buy(Sale sale){
+		hasBeenBuy.add(sale);
+	}
+	
 	public int nSale(WowObject o){
 		int n =0;
 		for(Sale sale: sales){
+			if(sale.getObject().equals(o))
+				n++;
+		}
+		return n;
+	}
+	
+	public int nBuy(WowObject o){
+		int n =0;
+		for(Sale sale: hasBeenBuy){
+			if(sale.getObject().equals(o))
+				n++;
+		}
+		return n;
+	}
+	
+	public int getPriceBuy(WowObject o){
+		int n =0;
+		int price = 0;
+		for(Sale sale: hasBeenBuy){
+			if(sale.getObject().equals(o)){
+				n++;
+				price += sale.getPrice();
+			}
+				
+		}
+		return n!=0?price/n:0;
+	}
+	
+	public int getPriceSell(WowObject o){
+		int n =0;
+		long price = 0;
+		for(Sale sale: hasBeenUpToSell){
+			if(sale.getObject().equals(o)){
+				n++;
+				price += sale.getPrice();
+			}
+				
+		}
+		return (int)(n!=0?price/n:0);
+	}
+	
+	public int getPriceAvg(WowObject o){
+		int n =0;
+		long price = 0;
+		for(Sale sale: sales){
+			if(sale.getObject().equals(o)){
+				n++;
+				price += sale.getPrice();
+			}
+				
+		}
+		return (int)(n!=0?price/n:0);
+	}
+	
+	public int nSell(WowObject o){
+		int n =0;
+		for(Sale sale: hasBeenUpToSell){
 			if(sale.getObject().equals(o))
 				n++;
 		}
