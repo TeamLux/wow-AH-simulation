@@ -40,8 +40,8 @@ public class Utility {
 
 		if(rs!=null){
 			int i = Plante.getInstance().id();
-			res-=this.parameters[i]*bag.howMany(i);
-			res+=(this.parameters[i]/(rs.timeTonextRaid(e.getdayOfWeek(), e.getHour())+1))*Math.min(bag.howMany(i)+stuff, Player.MAX_STUFF);
+			res-=this.parameters[i+3]*bag.howMany(i);
+			res+=(this.parameters[i+3]/(rs.timeTonextRaid(e.getdayOfWeek(), e.getHour())+1))*Math.min(bag.howMany(i)+stuff, Player.MAX_STUFF);
 		}
 		
 		return res;

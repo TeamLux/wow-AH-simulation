@@ -7,7 +7,7 @@ public final class Quest extends Action {
 	
 	private static final Quest singleton = new Quest();
 	private Quest() {}
-	private static final int earnGold = (int)(2*10000);
+	public static int earnGold = (int)(200*10000);
 	
 	public static Quest getInstance(){
 		return singleton;

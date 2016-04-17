@@ -26,7 +26,7 @@ public class SellLearing {
 		}
 		else{
 			//Exploit +/- 
-			res = (int)(nbToSell[i])+1;
+			res = (int)(nbToSell[i])+10;
 		}
 		return res;
 	}
