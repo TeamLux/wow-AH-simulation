@@ -21,6 +21,10 @@ public class AH {
 		return singleton;
 	}
 	
+	public static AH getNewInstance(){
+		return singleton = new AH();
+	}
+	
 	public synchronized void addSale(Sale sale){
 		hasBeenUpToSell.add(sale);
 		sales.add(sale);
@@ -142,7 +146,12 @@ public class AH {
 			}
 				
 		}
-		return (int)(n!=0?price/n:0);
+		int avg = (int)(n!=0?price/n:0);
+		if(avg == 0){
+			avg += this.maxBuy(o);
+		}
+		
+		return avg;
 	}
 	
 	public int nSell(WowObject o){
@@ -152,6 +161,18 @@ public class AH {
 				n++;
 		}
 		return n;
+	}
+	
+	private int maxBuy(WowObject o){
+		int price = 0;
+		for(Sale sale: hasBeenBuy){
+			if(sale.getObject().equals(o)){
+				if(price < sale.getPrice())
+					price = sale.getPrice();
+			}
+				
+		}
+		return price;
 	}
 
 }

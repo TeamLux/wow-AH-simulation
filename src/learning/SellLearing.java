@@ -26,7 +26,7 @@ public class SellLearing {
 		}
 		else{
 			//Exploit +/- 
-			res = (int)(nbToSell[i])+10;
+			res = (int)(nbToSell[i])*2;
 		}
 		return res;
 	}
@@ -50,7 +50,7 @@ public class SellLearing {
 	
 	public void update(int reward, int day, int hour){
 		int i = day*24 + hour;
-		history[i]+=1;
+		history[i]=Math.min(history[i]+1, 10);
 		nbToSell[i] += this.alpha*(reward-nbToSell[i]);
 	}
 	

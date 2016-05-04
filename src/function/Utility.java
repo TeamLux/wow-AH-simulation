@@ -3,6 +3,7 @@ package function;
 import wow.envrionment.Environment;
 import wow.object.Bag;
 import wow.object.Plante;
+import wow.object.Potion;
 import wow.object.WowObject;
 import wow.player.Player;
 
@@ -39,9 +40,9 @@ public class Utility {
 		}
 
 		if(rs!=null){
-			int i = Plante.getInstance().id();
+			int i = Potion.getInstance().id();
 			res-=this.parameters[i+3]*bag.howMany(i);
-			res+=(this.parameters[i+3]/(rs.timeTonextRaid(e.getdayOfWeek(), e.getHour())+1))*Math.min(bag.howMany(i)+stuff, Player.MAX_STUFF);
+			res+=(this.parameters[i+3]/((rs.timeTonextRaid(e.getdayOfWeek(), e.getHour())+1)/2.0))*Math.min(bag.howMany(i)+stuff, Player.MAX_STUFF);
 		}
 		
 		return res;

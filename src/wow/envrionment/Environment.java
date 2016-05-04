@@ -14,12 +14,17 @@ public class Environment {
 	
 	private static Environment singleton = new Environment();
 	private Environment() {
-		this.ah = AH.getInstance();
+		this.ah = AH.getNewInstance();
 		this.cal = Calendar.getInstance();
+		this.cal.set(2016,Calendar.APRIL,4,0,0);
 	}
 	
 	public static Environment getInstance(){
 		return singleton;
+	}
+	
+	public static Environment getNewInstance(){
+		return singleton = new Environment();
 	}
 	
 	public void oneHourAhead(){

@@ -57,13 +57,14 @@ public class Player implements Runnable, Buyer, Consumer,Producer,Seller{
 	public void run() {
 		int day = e.getdayOfWeek();
 		int hour = e.getHour();
+		boolean deco = this.s.deco(day,hour);
 //		System.out.println(e.getHour());
-		if (!this.sleep && this.s.deco(day,hour)){
+		if (!this.sleep && deco){
 			this.sleep = true;
 //			System.out.println("SLEEP");
 			return;
 		}
-		else if(this.sleep && this.s.wakeUp(day,hour)){
+		else if(this.sleep && !deco){
 //			System.out.println("WAKEUP");
 			this.sleep = false;
 		}
